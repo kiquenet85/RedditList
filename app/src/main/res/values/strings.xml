@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Currency Converter</string>
+    <string name="action_network">Network</string>
+    <string name="currency_rates">Currency rates</string>
+    <string name="write_your_bills">Write a value </string>
+    <string name="fragment_converter_item_rate">CHANGE</string>
+    <string name="fragment_converter_item_value">VALUE</string>
+    <string name="fragment_converter_item_currency">CURRENCY</string>
+    <string name="huge_rate">Huge Rate</string>
+
+    <string-array name="currency_key_array">
+        <item>USD</item>
+        <item>BRL</item>
+        <item>GBP</item>
+        <item>JPY</item>
+        <item>EUR</item>
+        <item>USD</item>
+    </string-array>
+
+</resources>

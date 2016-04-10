@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="currency_rates">Currency rates</string>
+    <string name="fragment_converter_item_rate">CHANGE</string>
+    <string name="fragment_converter_item_value">VALUE</string>
+    <string name="fragment_converter_item_currency">CURRENCY</string>
+</resources>
