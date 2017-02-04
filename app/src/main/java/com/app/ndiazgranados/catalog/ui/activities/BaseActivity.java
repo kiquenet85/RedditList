@@ -22,6 +22,8 @@ import com.app.ndiazgranados.catalog.network.NetworkManager;
 import com.app.ndiazgranados.catalog.network.WifiReceiver;
 import com.squareup.otto.Bus;
 
+import java.io.Serializable;
+
 /**
  * @author n.diazgranados
  */
@@ -121,5 +123,57 @@ public class BaseActivity extends AppCompatActivity {
     public void updateActiveConnectionIcon(boolean isOnline){
         if (activeConnection != null)
             activeConnection.setIcon((isOnline) ? R.mipmap.ic_call_white_48dp : R.mipmap.ic_call_end_white_48dp);
+    }
+
+    protected int pushFragment(int containerId, Fragment fragment, String tag, boolean addToBackStack,
+            CustomAnimations animation){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (animation != null) {
+            transaction.setCustomAnimations(animation.enter, animation.exit, animation.popEnter, animation.popExit);
+        }
+        if (addToBackStack) {
+            transaction.addToBackStack(tag);
+        }
+        // use commitAllowingStateLoss per Support Library bug: https://code.google.com/p/android/issues/detail?id=19917
+        // (TODO once I get rid of support lib I can remove this)
+        return transaction.replace(containerId, fragment, tag).commitAllowingStateLoss();
+    }
+
+    /**
+     * The custom transition animation configuration class.
+     */
+    public static class CustomAnimations implements Serializable {
+        private static final long serialVersionUID = 1L;
+        public final int enter;
+        public final int exit;
+        public final int popEnter;
+        public final int popExit;
+
+        /**
+         * The {@link CustomAnimations} constructor.
+         *
+         * @param enter    the enter animation.
+         * @param exit     the exit animation.
+         * @param popEnter the pop backstack enter animation (only used for fragment transactions).
+         * @param popExit  the pop backstack exit animation (only used for fragment transactions).
+         */
+        public CustomAnimations(int enter, int exit, int popEnter, int popExit) {
+            this.enter = enter;
+            this.exit = exit;
+            this.popEnter = popEnter;
+            this.popExit = popExit;
+        }
+
+        /**
+         * The {@link CustomAnimations} constructor.
+         *
+         * @param enter A resource ID of the animation resource to use for
+         *              the incoming view.  Use 0 for no animation.
+         * @param exit  A resource ID of the animation resource to use for
+         *              the outgoing view.  Use 0 for no animation.
+         */
+        public CustomAnimations(int enter, int exit) {
+            this(enter, exit, 0, 0);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.app.ndiazgranados.catalog.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 import com.app.ndiazgranados.catalog.R;
 import com.app.ndiazgranados.catalog.data.local.cache.CategoryLocalCache;
 import com.app.ndiazgranados.catalog.model.web.Category;
-import com.app.ndiazgranados.catalog.network.NetworkManager;
 import com.app.ndiazgranados.catalog.ui.adapter.CategoryAdapter;
 import com.app.ndiazgranados.catalog.ui.presenter.CategoryPresenter;
 import com.app.ndiazgranados.catalog.ui.view.CatalogView;
@@ -28,6 +28,11 @@ import java.util.List;
 
 public class CategoryFragment extends BaseFragment implements CatalogView, CategoryAdapter.OnCategoryClickListener {
 
+    public interface CategoryFragmentInteractionListener {
+        void showSelectedCategory(String nameSelectedCategory);
+    }
+
+    private CategoryFragmentInteractionListener interactionListener;
     private RecyclerView categoryList;
     private ProgressBar loader;
     private TextView customMessage;
@@ -36,7 +41,8 @@ public class CategoryFragment extends BaseFragment implements CatalogView, Categ
 
     private CategoryLocalCache categoryLocalCache;
     private CategoryPresenter categoryPresenter;
-    private NetworkManager networkManager;
+    private Category selectedCategory;
+    private Handler handler;
 
     public static CategoryFragment newInstance() {
         CategoryFragment fragment = new CategoryFragment();
@@ -48,17 +54,17 @@ public class CategoryFragment extends BaseFragment implements CatalogView, Categ
         super.onCreate(savedInstanceState);
         categoryLocalCache = appComponent.getCategoryLocalCache();
         categoryPresenter = appComponent.getCategoryPresenter();
-        networkManager = appComponent.getNetworkManager();
+        handler = new Handler();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootFrag = inflater.inflate(R.layout.fragment_cathegory, container, false);
+        View rootFrag = inflater.inflate(R.layout.fragment_category, container, false);
 
-        categoryList = (RecyclerView) rootFrag.findViewById(R.id.fragment_cathegory_cathegory_list);
-        customMessage = (TextView) rootFrag.findViewById(R.id.fragment_cathegory_message);
-        loader = (ProgressBar) rootFrag.findViewById(R.id.fragment_cathegory_loader);
+        categoryList = (RecyclerView) rootFrag.findViewById(R.id.fragment_category_list);
+        customMessage = (TextView) rootFrag.findViewById(R.id.fragment_category_message);
+        loader = (ProgressBar) rootFrag.findViewById(R.id.fragment_category_loader);
 
         categoryList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
@@ -70,14 +76,22 @@ public class CategoryFragment extends BaseFragment implements CatalogView, Categ
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        try {
+            interactionListener = (CategoryFragmentInteractionListener) getActivity();
+        } catch (ClassCastException ex) {
+            throw new ClassCastException("Activity must implement CategoryFragmentInteractionListener interface");
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         categoryPresenter.attachView(this);
         categoryPresenter.registerOnBus(eventBus);
 
-        if (!networkManager.isOnline()) {
-            showCatalogEmpty();
-        } else if (!getActivity().isFinishing()) {
+        if (!getActivity().isFinishing()) {
             showLoader();
             categoryPresenter.loadCategories(200);
         }
@@ -130,15 +144,21 @@ public class CategoryFragment extends BaseFragment implements CatalogView, Categ
 
     public void updateConnectionStatus(boolean isOnline) {
         if (isOnline) {
-            showLoader();
-            categoryPresenter.loadCategories(40);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    showLoader();
+                    categoryPresenter.loadCategories(200);
+                }
+            });
         }
     }
 
     @Override
     public void onCategoryClicked(View view) {
         int itemPosition = categoryList.getChildLayoutPosition(view);
-        Category item = ((CategoryAdapter)adapter).getDataSet().get(itemPosition);
-        Toast.makeText(getContext(), item.getAttributes().getLabel(), Toast.LENGTH_LONG).show();
+        selectedCategory = ((CategoryAdapter) adapter).getDataSet().get(itemPosition);
+        Toast.makeText(getContext(), selectedCategory.getAttributes().getLabel(), Toast.LENGTH_LONG).show();
+        interactionListener.showSelectedCategory(selectedCategory.getAttributes().getLabel());
     }
 }

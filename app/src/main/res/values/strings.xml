@@ -2,9 +2,11 @@
     <string name="app_name">Catalog App</string>
     <string name="action_network">Network</string>
     <string name="fragment_category_item_label">Category</string>
+    <string name="fragment_top_app_item_label">Category</string>
 
     //Error
     <string name="category_fragment_endpoint_error">We are having trouble reaching server. is your connection working?</string>
+    <string name="top_apps_fragment_endpoint_error">We are having trouble reaching server. is your connection working?</string>
 
     <string-array name="currency_key_array">
         <item>USD</item>

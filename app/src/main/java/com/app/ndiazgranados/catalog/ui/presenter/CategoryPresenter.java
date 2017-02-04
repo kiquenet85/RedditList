@@ -7,9 +7,9 @@ import com.app.ndiazgranados.catalog.data.local.cache.CategoryLocalCache;
 import com.app.ndiazgranados.catalog.model.web.Catalog;
 import com.app.ndiazgranados.catalog.model.web.Category;
 import com.app.ndiazgranados.catalog.model.web.Entry;
+import com.app.ndiazgranados.catalog.network.NetworkManager;
 import com.app.ndiazgranados.catalog.ui.interactor.FetchCatalogInteractor;
 import com.app.ndiazgranados.catalog.ui.view.CatalogView;
-import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -28,16 +28,16 @@ public class CategoryPresenter extends BasePresenter<CatalogView> {
     private FetchCatalogInteractor fetchCatalogInteractor;
     private CategoryLocalCache categoryLocalCache;
     private CatalogLocalCache catalogLocalCache;
-    private Bus eventBus;
+    private NetworkManager networkManager;
 
     @Inject
     public CategoryPresenter(FetchCatalogInteractor fetchCatalogInteractor,
             CategoryLocalCache categoryLocalCache, CatalogLocalCache catalogLocalCache,
-            Bus eventBus) {
+            NetworkManager networkManager) {
         this.fetchCatalogInteractor = fetchCatalogInteractor;
         this.categoryLocalCache = categoryLocalCache;
         this.catalogLocalCache = catalogLocalCache;
-        this.eventBus = eventBus;
+        this.networkManager = networkManager;
     }
 
     @Override
@@ -53,14 +53,17 @@ public class CategoryPresenter extends BasePresenter<CatalogView> {
     public void loadCategories(int limitNumberOfTopApps) {
         //showLoader();
         checkViewAttached();
-        if (catalogLocalCache.getCatalogCache() == null) {
-            if (limitNumberOfTopApps > MIN_LIMIT_NUMBER_OF_TOP_APPS) {
-                fetchCatalogInteractor.setLimitNumberOftopApps(limitNumberOfTopApps);
-            }
-            fetchCatalogInteractor.execute();
-        } else {
+        if (catalogLocalCache.getCatalogCache() != null) {
             getMvpView().showCatalog(extractCategoriesFromCatalog(catalogLocalCache.getCatalogCache()));
-           // hideLoader();
+        } else {
+            if (networkManager.isOnline()) {
+                if (limitNumberOfTopApps > MIN_LIMIT_NUMBER_OF_TOP_APPS) {
+                    fetchCatalogInteractor.setLimitNumberOftopApps(limitNumberOfTopApps);
+                }
+                fetchCatalogInteractor.execute();
+            } else {
+                getMvpView().showCatalogEmpty();
+            }
         }
     }
 
@@ -69,6 +72,7 @@ public class CategoryPresenter extends BasePresenter<CatalogView> {
       //  hideLoader();
         if (event.isSuccessful()) {
             Catalog catalog = event.getResponse().body();
+            catalogLocalCache.saveToCache(catalog);
             getMvpView().showCatalog(extractCategoriesFromCatalog(catalog));
         } else {
             getMvpView().showCatalogEmpty();
@@ -86,8 +90,12 @@ public class CategoryPresenter extends BasePresenter<CatalogView> {
         return categoryList;
     }
 
-    public void saveToCache(Category selectedCategory, Bundle outState) {
+    public void saveToCache(String selectedCategory, Bundle outState) {
         categoryLocalCache.saveToCache(selectedCategory, outState);
+    }
+
+    public String searchInCache (Long cacheId) {
+        return categoryLocalCache.searchInCache(cacheId);
     }
 
     @Override
