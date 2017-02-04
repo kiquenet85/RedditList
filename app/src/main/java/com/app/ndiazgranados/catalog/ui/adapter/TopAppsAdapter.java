@@ -1,5 +1,6 @@
 package com.app.ndiazgranados.catalog.ui.adapter;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -76,8 +77,11 @@ public class TopAppsAdapter extends RecyclerView.Adapter<TopAppsAdapter.ViewHold
         holder.labelApp.setText(entry.getImName().getLabel());
 
         holder.labelApp.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-        //TODO Fix the porper dimension based on resolution and density pixel.
-        Picasso.with(holder.imageApp.getContext()).load(entry.getImImage().get(0).getLabel()).into(holder.imageApp);
+
+        Context context = holder.imageApp.getContext();
+        String imageURL = entry.getImImage().get(0).getLabel().replaceAll(context.getString(R.string.size_regex_top_app),
+                context.getString(R.string.frag_top_apps_size_web_image));
+        Picasso.with(context).load(imageURL).into(holder.imageApp);
         setAnimation(holder.container, position);
     }
 

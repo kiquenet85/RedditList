@@ -118,7 +118,6 @@ public class TopAppsFragment extends BaseFragment implements TopAppsView, TopApp
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //As not detail is shown we can save null value.
         topAppsPresenter.saveToCache(nameSelectedCategory, outState);
     }
 

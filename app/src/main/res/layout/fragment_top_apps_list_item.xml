@@ -18,10 +18,10 @@
         >
         <ImageView
             android:id="@+id/fragment_top_apps_image"
-            android:layout_width="53dp"
-            android:layout_height="53dp"
+            android:layout_width="@dimen/frag_top_apps_size_image"
+            android:layout_height="@dimen/frag_top_apps_size_image"
             android:layout_gravity="center"
-            android:background="@android:drawable/progress_indeterminate_horizontal"
+            android:background="@android:color/background_light"
             android:gravity="center"/>
     </FrameLayout>
 

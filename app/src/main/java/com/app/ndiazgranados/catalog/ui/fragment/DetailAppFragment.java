@@ -81,7 +81,6 @@ public class DetailAppFragment extends BaseFragment implements DetailAppView {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //As not detail is shown we can save null value.
         detailAppPresenter.saveToCache(nameSelectedApp, outState);
     }
 
