@@ -8,6 +8,7 @@
     <string name="category_fragment_endpoint_error">We are having trouble reaching server. is your connection working?</string>
     <string name="top_apps_fragment_endpoint_error">We are having trouble reaching server. is your connection working?</string>
     <string name="size_regex_top_app">[0-9]{2,}[x,X]{1}[0-9]{2,}</string>
+    <string name="toolbar_header_title">iOS Top Apps</string>
 
     <string-array name="currency_key_array">
         <item>USD</item>

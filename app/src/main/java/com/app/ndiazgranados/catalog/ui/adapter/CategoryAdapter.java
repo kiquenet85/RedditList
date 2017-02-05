@@ -1,6 +1,5 @@
 package com.app.ndiazgranados.catalog.ui.adapter;
 
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +70,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         Category category = (Category) dataSet.get(position);
         holder.txtViewName.setText(category.getAttributes().getLabel());
 
-        holder.txtViewName.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
         setAnimation(holder.container, position);
     }
 
@@ -90,6 +88,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                               AnimationUtils.loadAnimation(viewToAnimate.getContext(), R.anim.slide_in_from_left) :
                               AnimationUtils.loadAnimation(viewToAnimate.getContext(), R.anim.slide_in_right);
         viewToAnimate.startAnimation(animation);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.container.clearAnimation();
     }
 
     @Override

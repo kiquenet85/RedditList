@@ -1,7 +1,6 @@
 package com.app.ndiazgranados.catalog.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,8 +75,6 @@ public class TopAppsAdapter extends RecyclerView.Adapter<TopAppsAdapter.ViewHold
         Entry entry = (Entry) dataSet.get(position);
         holder.labelApp.setText(entry.getImName().getLabel());
 
-        holder.labelApp.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-
         Context context = holder.imageApp.getContext();
         String imageURL = entry.getImImage().get(0).getLabel().replaceAll(context.getString(R.string.size_regex_top_app),
                 context.getString(R.string.frag_top_apps_size_web_image));
@@ -100,6 +97,12 @@ public class TopAppsAdapter extends RecyclerView.Adapter<TopAppsAdapter.ViewHold
                               AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left) :
                               AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_out_right);
         viewToAnimate.startAnimation(animation);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.container.clearAnimation();
     }
 
     @Override

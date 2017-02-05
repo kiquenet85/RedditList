@@ -3,6 +3,9 @@ package com.app.ndiazgranados.catalog.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 
 import com.app.ndiazgranados.catalog.R;
 import com.app.ndiazgranados.catalog.network.WifiReceiver;
@@ -11,6 +14,7 @@ import com.app.ndiazgranados.catalog.ui.fragment.DetailAppFragment;
 import com.app.ndiazgranados.catalog.ui.fragment.TopAppsFragment;
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 /**
  * @author n.diazgranados
@@ -21,6 +25,7 @@ public class TopAppsActivity extends BaseActivity implements CategoryFragment.Ca
     public static String ACTIVITY_KEY_CATALOG = "ACTIVITY_KEY_CATALOG";
     private Gson gson;
 
+    private CollapsingToolbarLayout collapsingToolbar;
 
     public static Intent createIntent(Context context, String catalogJSON) {
         Intent intent = new Intent(context, TopAppsActivity.class);
@@ -35,6 +40,8 @@ public class TopAppsActivity extends BaseActivity implements CategoryFragment.Ca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setupToolbar();
         gson = applicationComponent.getDefaultGson();
 
         if (savedInstanceState == null) {
@@ -46,6 +53,21 @@ public class TopAppsActivity extends BaseActivity implements CategoryFragment.Ca
             }
             addFragment(categoryFragment);
         }
+    }
+
+    private void setupToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle(getString(R.string.toolbar_header_title));
+
+        ImageView header = (ImageView) findViewById(R.id.header);
+        Picasso.with(currentContext).load(R.drawable.top_apps_header).into(header);
+
+        collapsingToolbar.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
+        collapsingToolbar.setStatusBarScrimColor(getResources().getColor(R.color.colorAccent));
     }
     //endregion
 
