@@ -6,8 +6,8 @@ import com.app.ndiazgranados.catalog.model.web.Entry;
  * @author n.diazgranados
  */
 public interface DetailAppView extends MvpView {
-    void showTopApps(Entry selectedApp);
+    void showDetailApp(Entry selectedApp);
 
-    void showTopAppsEmpty();
+    void showDetailAppEmpty();
 }
 

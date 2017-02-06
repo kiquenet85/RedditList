@@ -1,16 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/fragment_detail_app_message"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Sorry we are having trouble right now! Try again!"
-        android:visibility="gone"/>
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/detail_app_image_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_marginLeft="@dimen/medium_margin"
+                android:layout_marginRight="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:foreground="?attr/selectableItemBackground"
+                card_view:cardCornerRadius="@dimen/fragment_top_apps_item_corner_radius">
+
+                <ImageView
+                    android:id="@+id/fragment_detail_img"
+                    android:layout_width="@dimen/detail_app_size_image"
+                    android:layout_height="@dimen/detail_app_size_image"
+                    android:layout_gravity="center"
+                    android:src="@drawable/top_apps_header"
+                    />
+            </android.support.v7.widget.CardView>
+
+
+            <LinearLayout
+                android:id="@+id/detail_app_main_info_label_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_below="@+id/detail_app_image_container"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/fragment_detail_label_name"
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:scrollbars="vertical"
+                    android:text="@string/detail_app_label_name"/>
+
+                <TextView
+                    android:id="@+id/fragment_detail_label_price"
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:scrollbars="vertical"
+                    android:text="@string/detail_app_label_price"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/detail_app_main_info_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detail_app_main_info_label_container"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/fragment_detail_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:scrollbars="vertical"
+                    android:text="Name"/>
+
+                <TextView
+                    android:id="@+id/fragment_detail_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:scrollbars="vertical"
+                    android:text="Price"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/detail_app_info_label_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_below="@+id/detail_app_main_info_container"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/fragment_detail_label_artist"
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:scrollbars="vertical"
+                    android:text="@string/detail_app_label_artist"/>
+
+                <TextView
+                    android:id="@+id/fragment_detail_label_release_date"
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:scrollbars="vertical"
+                    android:text="@string/detail_app_label_release_date"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/detail_app_info_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detail_app_info_label_container"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/fragment_detail_artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:scrollbars="vertical"
+                    android:text="Artist"/>
+
+                <TextView
+                    android:id="@+id/fragment_detail_release_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:scrollbars="vertical"
+                    android:text="Release Date"/>
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/variants_separator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/detail_app_info_container"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:background="@color/colorPrimaryDark"/>
+
+            <TextView
+                android:id="@+id/fragment_detail_label_desc"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_below="@+id/variants_separator"
+                android:gravity="center"
+                android:scrollbars="vertical"
+                android:text="@string/detail_app_label_information"/>
+
+            <TextView
+                android:id="@+id/fragment_detail_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_detail_label_desc"
+                android:gravity="center"
+                android:scrollbars="vertical"
+                android:text="Desc"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</ScrollView>

@@ -1,6 +1,9 @@
 package com.app.ndiazgranados.catalog.ui.activities;
 
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.app.ndiazgranados.catalog.R;
 import com.app.ndiazgranados.catalog.data.local.cache.CatalogLocalCache;
@@ -9,6 +12,7 @@ import com.app.ndiazgranados.catalog.network.NetworkManager;
 import com.app.ndiazgranados.catalog.settings.Settings;
 import com.app.ndiazgranados.catalog.ui.interactor.FetchCatalogInteractor;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 /**
  * @author n.diazgranados
@@ -20,6 +24,8 @@ public class SplashActivity extends BaseActivity {
     private CatalogLocalCache catalogLocalCache;
     private NetworkManager networkManager;
     private Catalog catalog;
+    private ImageView imageView;
+    private Animation animation;
 
 
     @Override
@@ -29,6 +35,11 @@ public class SplashActivity extends BaseActivity {
         catalogLocalCache = applicationComponent.getCatalogLocalCache();
         networkManager = applicationComponent.getNetworkManager();
         settings = applicationComponent.getSettings();
+
+        imageView = (ImageView) findViewById(R.id.ssplash_image);
+        Picasso.with(currentContext).load(R.drawable.top_apps_header).into(imageView);
+
+        animation = AnimationUtils.loadAnimation(currentContext, R.anim.zoom_fade_out);
     }
 
     @Override
@@ -36,9 +47,26 @@ public class SplashActivity extends BaseActivity {
         super.onResume();
 
         if (!networkManager.isOnline()) {
-            startActivity(TopAppsActivity.createIntent(currentContext, null));
-            finish();
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    startActivity(TopAppsActivity.createIntent(currentContext, null));
+                    finish();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            imageView.startAnimation(animation);
         } else if (!isFinishing() && catalog == null) {
+            imageView.startAnimation(animation);
             fetchCatalogInteractor.setLimitNumberOftopApps(settings.getDefaultCathegoryAppsLimit());
             fetchCatalogInteractor.execute();
         }
@@ -58,6 +86,7 @@ public class SplashActivity extends BaseActivity {
             catalog = event.getResponse().body();
             catalogLocalCache.saveToCache(catalog);
         }
+        imageView.clearAnimation();
         startActivity(TopAppsActivity.createIntent(currentContext, (event.isSuccessful()) ? event.getResponse().raw().toString() : null));
         finish();
     }

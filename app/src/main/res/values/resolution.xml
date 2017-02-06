@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="frag_top_apps_size_image">53dp</dimen>
+    <dimen name="detail_app_size_image">85dp</dimen>
     <string name="frag_top_apps_size_web_image">53x53</string>
 </resources>

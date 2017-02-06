@@ -62,8 +62,27 @@ public class TopAppsAdapter extends RecyclerView.Adapter<TopAppsAdapter.ViewHold
         ViewHolder vh = new ViewHolder(viewRow);
         viewRow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                onTopAppClickListener.onTopAppClicked(view);
+            public void onClick(final View view) {
+                Animation animation = AnimationUtils.loadAnimation(view.getContext(), R.anim.zoom_fade_out);
+                animation.setAnimationListener(new Animation
+                        .AnimationListener
+                        () {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        onTopAppClickListener.onTopAppClicked(view);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                view.startAnimation(animation);
             }
         });
         return vh;

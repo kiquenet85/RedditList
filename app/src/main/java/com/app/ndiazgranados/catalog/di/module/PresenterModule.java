@@ -2,6 +2,7 @@ package com.app.ndiazgranados.catalog.di.module;
 
 import com.app.ndiazgranados.catalog.data.local.cache.CatalogLocalCache;
 import com.app.ndiazgranados.catalog.data.local.cache.CategoryLocalCache;
+import com.app.ndiazgranados.catalog.data.local.cache.DetailAppLocalCache;
 import com.app.ndiazgranados.catalog.network.NetworkManager;
 import com.app.ndiazgranados.catalog.ui.interactor.FetchCatalogInteractor;
 import com.app.ndiazgranados.catalog.ui.presenter.CategoryPresenter;
@@ -36,8 +37,8 @@ public class PresenterModule {
 
     @Provides
     @Singleton
-    DetailAppPresenter provideDetailAppPresenter(CategoryLocalCache categoryLocalCache, CatalogLocalCache catalogLocalCache) {
-        DetailAppPresenter detailAppPresenter = new DetailAppPresenter(categoryLocalCache, catalogLocalCache);
+    DetailAppPresenter provideDetailAppPresenter(DetailAppLocalCache detailAppLocalCache, CatalogLocalCache catalogLocalCache) {
+        DetailAppPresenter detailAppPresenter = new DetailAppPresenter(detailAppLocalCache, catalogLocalCache);
         return detailAppPresenter;
     }
 }

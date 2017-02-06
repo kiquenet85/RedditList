@@ -3,7 +3,7 @@ package com.app.ndiazgranados.catalog.ui.presenter;
 import android.os.Bundle;
 
 import com.app.ndiazgranados.catalog.data.local.cache.CatalogLocalCache;
-import com.app.ndiazgranados.catalog.data.local.cache.CategoryLocalCache;
+import com.app.ndiazgranados.catalog.data.local.cache.DetailAppLocalCache;
 import com.app.ndiazgranados.catalog.model.web.Entry;
 import com.app.ndiazgranados.catalog.ui.view.DetailAppView;
 
@@ -14,12 +14,12 @@ import javax.inject.Inject;
  */
 public class DetailAppPresenter extends BasePresenter<DetailAppView> {
 
-    private CategoryLocalCache categoryLocalCache;
+    private DetailAppLocalCache detailAppLocalCache;
     private CatalogLocalCache catalogLocalCache;
 
     @Inject
-    public DetailAppPresenter(CategoryLocalCache categoryLocalCache, CatalogLocalCache catalogLocalCache) {
-        this.categoryLocalCache = categoryLocalCache;
+    public DetailAppPresenter(DetailAppLocalCache detailAppLocalCache, CatalogLocalCache catalogLocalCache) {
+        this.detailAppLocalCache = detailAppLocalCache;
         this.catalogLocalCache = catalogLocalCache;
     }
 
@@ -35,12 +35,12 @@ public class DetailAppPresenter extends BasePresenter<DetailAppView> {
 
     public void loadSelectedApp(String nameSelectedApp) {
         checkViewAttached();
-        getMvpView().showTopApps(extractDetailInfoFromSelectedApp(nameSelectedApp));
+        getMvpView().showDetailApp(extractDetailInfoFromSelectedApp(nameSelectedApp));
     }
 
     public Entry extractDetailInfoFromSelectedApp (String nameSelectedApp) {
         for (Entry entry : catalogLocalCache.getCatalogCache().getFeed().getEntry()) {
-            if (entry.getId().getAttributes().getImId().equals(nameSelectedApp)) {
+            if (entry.getImName().getLabel().equals(nameSelectedApp)) {
                 return entry;
             }
         }
@@ -48,10 +48,10 @@ public class DetailAppPresenter extends BasePresenter<DetailAppView> {
     }
 
     public void saveToCache(String selectedApp, Bundle outState) {
-        categoryLocalCache.saveToCache(selectedApp, outState);
+        detailAppLocalCache.saveToCache(selectedApp, outState);
     }
 
     public String searchInCache (Long cacheId) {
-        return categoryLocalCache.searchInCache(cacheId);
+        return detailAppLocalCache.searchInCache(cacheId);
     }
 }

@@ -93,10 +93,10 @@ public class TopAppsActivity extends BaseActivity implements CategoryFragment.Ca
     @Override
     public void showSelectedApp(String nameSelectedApp) {
         pushFragment(R.id.fragment_container, DetailAppFragment.newInstance(nameSelectedApp), TopAppsFragment.class.getName(),
-                true, new CustomAnimations(R.anim.slide_in,
-                        R.anim.slide_out,
-                        R.anim.slide_in,
-                        R.anim.slide_out));
+                true, new CustomAnimations(R.anim.slide_in_from_right,
+                        R.anim.slide_out_to_left,
+                        R.anim.slide_in_from_left,
+                        R.anim.slide_out_to_right));
     }
     //endregion
 }
