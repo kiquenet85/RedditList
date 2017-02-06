@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.ndiazgranados.catalog.R;
 import com.app.ndiazgranados.catalog.data.local.cache.CategoryLocalCache;
@@ -160,7 +159,6 @@ public class CategoryFragment extends BaseFragment implements CatalogView, Categ
     public void onCategoryClicked(View view) {
         int itemPosition = categoryList.getChildLayoutPosition(view);
         selectedCategory = ((CategoryAdapter) adapter).getDataSet().get(itemPosition);
-        Toast.makeText(getContext(), selectedCategory.getAttributes().getLabel(), Toast.LENGTH_LONG).show();
         interactionListener.showSelectedCategory(selectedCategory.getAttributes().getLabel());
     }
 }

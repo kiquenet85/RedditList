@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.ndiazgranados.catalog.R;
 import com.app.ndiazgranados.catalog.data.local.cache.CategoryLocalCache;
@@ -144,7 +143,6 @@ public class TopAppsFragment extends BaseFragment implements TopAppsView, TopApp
     public void onTopAppClicked(View view) {
         int itemPosition = appsGrid.getChildLayoutPosition(view);
         Entry item = ((TopAppsAdapter) adapter).getDataSet().get(itemPosition);
-        Toast.makeText(getContext(), item.getImName().getLabel(), Toast.LENGTH_LONG).show();
         interactionListener.showSelectedApp(item.getImName().getLabel());
     }
 }
