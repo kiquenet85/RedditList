@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
+              android:gravity="center"
               android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/ssplash_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/splash_image"
+        android:layout_width="@dimen/detail_app_size_image"
+        android:layout_height="@dimen/detail_app_size_image"
         android:fitsSystemWindows="true"
+        android:src="@mipmap/ic_launcher"
         android:scaleType="centerCrop"/>
 
 </LinearLayout>

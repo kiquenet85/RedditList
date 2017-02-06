@@ -28,6 +28,8 @@ import java.util.List;
 
 public class CategoryFragment extends BaseFragment implements CatalogView, CategoryAdapter.OnCategoryClickListener {
 
+    public static final int LIMIT_NUMBER_OF_TOP_APPS = 200;
+
     public interface CategoryFragmentInteractionListener {
         void showSelectedCategory(String nameSelectedCategory);
     }
@@ -93,7 +95,7 @@ public class CategoryFragment extends BaseFragment implements CatalogView, Categ
 
         if (!getActivity().isFinishing()) {
             showLoader();
-            categoryPresenter.loadCategories(200);
+            categoryPresenter.loadCategories(LIMIT_NUMBER_OF_TOP_APPS);
         }
     }
 
@@ -148,7 +150,7 @@ public class CategoryFragment extends BaseFragment implements CatalogView, Categ
                 @Override
                 public void run() {
                     showLoader();
-                    categoryPresenter.loadCategories(200);
+                    categoryPresenter.loadCategories(LIMIT_NUMBER_OF_TOP_APPS);
                 }
             });
         }

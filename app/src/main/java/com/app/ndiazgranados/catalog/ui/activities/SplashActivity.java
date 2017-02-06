@@ -12,7 +12,6 @@ import com.app.ndiazgranados.catalog.network.NetworkManager;
 import com.app.ndiazgranados.catalog.settings.Settings;
 import com.app.ndiazgranados.catalog.ui.interactor.FetchCatalogInteractor;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 /**
  * @author n.diazgranados
@@ -36,40 +35,36 @@ public class SplashActivity extends BaseActivity {
         networkManager = applicationComponent.getNetworkManager();
         settings = applicationComponent.getSettings();
 
-        imageView = (ImageView) findViewById(R.id.ssplash_image);
-        Picasso.with(currentContext).load(R.mipmap.ic_launcher).into(imageView);
-
-        animation = AnimationUtils.loadAnimation(currentContext, R.anim.slide_in_from_right);
+        imageView = (ImageView) findViewById(R.id.splash_image);
+        animation = AnimationUtils.loadAnimation(currentContext, R.anim.pull_up_from_bottom);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-        if (!networkManager.isOnline()) {
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+            }
 
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (networkManager.isOnline()) {
+                    fetchCatalogInteractor.setLimitNumberOftopApps(settings.getDefaultCathegoryAppsLimit());
+                    fetchCatalogInteractor.execute();
+                } else {
                     startActivity(TopAppsActivity.createIntent(currentContext, null));
                     finish();
                 }
+            }
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
-                }
-            });
-            imageView.startAnimation(animation);
-        } else if (!isFinishing() && catalog == null) {
-            imageView.startAnimation(animation);
-            fetchCatalogInteractor.setLimitNumberOftopApps(settings.getDefaultCathegoryAppsLimit());
-            fetchCatalogInteractor.execute();
-        }
+            }
+        });
+        imageView.startAnimation(animation);
     }
 
     @Override
@@ -86,7 +81,6 @@ public class SplashActivity extends BaseActivity {
             catalog = event.getResponse().body();
             catalogLocalCache.saveToCache(catalog);
         }
-        imageView.clearAnimation();
         startActivity(TopAppsActivity.createIntent(currentContext, (event.isSuccessful()) ? event.getResponse().raw().toString() : null));
         finish();
     }
