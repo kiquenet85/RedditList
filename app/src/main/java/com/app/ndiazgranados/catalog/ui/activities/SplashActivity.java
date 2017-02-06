@@ -37,9 +37,9 @@ public class SplashActivity extends BaseActivity {
         settings = applicationComponent.getSettings();
 
         imageView = (ImageView) findViewById(R.id.ssplash_image);
-        Picasso.with(currentContext).load(R.drawable.top_apps_header).into(imageView);
+        Picasso.with(currentContext).load(R.mipmap.ic_launcher).into(imageView);
 
-        animation = AnimationUtils.loadAnimation(currentContext, R.anim.zoom_fade_out);
+        animation = AnimationUtils.loadAnimation(currentContext, R.anim.slide_in_from_right);
     }
 
     @Override
