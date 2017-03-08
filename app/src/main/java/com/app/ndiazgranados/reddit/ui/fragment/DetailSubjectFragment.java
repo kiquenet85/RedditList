@@ -2,9 +2,14 @@ package com.app.ndiazgranados.reddit.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +18,7 @@ import com.app.ndiazgranados.reddit.data.local.cache.DetailSubjectLocalCache;
 import com.app.ndiazgranados.reddit.model.web.Child;
 import com.app.ndiazgranados.reddit.ui.presenter.DetailSubjectPresenter;
 import com.app.ndiazgranados.reddit.ui.view.DetailSubjectView;
+import com.app.ndiazgranados.reddit.util.MyBounceInterpolator;
 import com.app.ndiazgranados.reddit.util.StringUtil;
 import com.squareup.picasso.Picasso;
 
@@ -26,6 +32,7 @@ public class DetailSubjectFragment extends BaseFragment implements DetailSubject
 
     private String nameSelectedApp;
     private ImageView appImage;
+    private CardView imgContainer;
     private TextView description;
     private TextView name;
     private TextView numSubscribers;
@@ -58,6 +65,7 @@ public class DetailSubjectFragment extends BaseFragment implements DetailSubject
         View rootFrag = inflater.inflate(R.layout.fragment_detail_subject, container, false);
 
         appImage = (ImageView) rootFrag.findViewById(R.id.fragment_detail_img);
+        imgContainer = (CardView) rootFrag.findViewById(R.id.detail_app_image_container);
         description = (TextView) rootFrag.findViewById(R.id.fragment_detail_desc);
         name = (TextView) rootFrag.findViewById(R.id.fragment_detail_name);
         numSubscribers = (TextView) rootFrag.findViewById(R.id.fragment_detail_num_subscribers);
@@ -69,7 +77,10 @@ public class DetailSubjectFragment extends BaseFragment implements DetailSubject
         if (args != null && nameSelectedApp == null) {
             nameSelectedApp = args.getString(KEY_SELECTED_SUBJECT);
         }
-
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 20);
+        animation.setInterpolator(interpolator);
+        imgContainer.startAnimation(animation);
         return rootFrag;
     }
 
@@ -89,6 +100,7 @@ public class DetailSubjectFragment extends BaseFragment implements DetailSubject
         detailSubjectPresenter.unregisterOnBus(eventBus);
         detailSubjectPresenter.detachView();
         super.onPause();
+        imgContainer.clearAnimation();
     }
 
     @Override
@@ -103,7 +115,8 @@ public class DetailSubjectFragment extends BaseFragment implements DetailSubject
         if (imageURL != null && !imageURL.isEmpty()) {
             Picasso.with(getContext()).load(imageURL).into(appImage);
         }
-        description.setText(StringUtil.getUnknownIfEmpty(selectedSubject.getData().getDescription()));
+        Spanned text = Html.fromHtml(selectedSubject.getData().getDescription());
+        description.setText(text);
         name.setText(StringUtil.getUnknownIfEmpty(selectedSubject.getData().getTitle()));
         numSubscribers.setText(StringUtil.getUnknownIfEmpty(Integer.toString(selectedSubject.getData().getSubscribers())));
         lang.setText(StringUtil.getUnknownIfEmpty(selectedSubject.getData().getLang()));

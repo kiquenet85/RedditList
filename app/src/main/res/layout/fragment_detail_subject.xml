@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_margin"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -58,14 +59,14 @@
                     android:text="@string/detail_app_label_name"/>
 
                 <TextView
-                    android:id="@+id/fragment_detail_label_price"
+                    android:id="@+id/fragment_detail_label_subscribers"
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:scrollbars="vertical"
-                    android:text="@string/detail_app_label_price"/>
+                    android:text="@string/detail_app_label_num_subscribers"/>
 
             </LinearLayout>
 
@@ -107,24 +108,24 @@
                 android:weightSum="1">
 
                 <TextView
-                    android:id="@+id/fragment_detail_label_artist"
+                    android:id="@+id/fragment_detail_label_lang"
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:scrollbars="vertical"
-                    android:text="@string/detail_app_label_artist"/>
+                    android:text="@string/detail_app_label_lang"/>
 
                 <TextView
-                    android:id="@+id/fragment_detail_label_release_date"
+                    android:id="@+id/fragment_detail_label_subreddit_type"
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:scrollbars="vertical"
-                    android:text="@string/detail_app_label_release_date"/>
+                    android:text="@string/detail_app_label_release_subreddit_type"/>
 
             </LinearLayout>
 
@@ -175,7 +176,7 @@
                 android:layout_marginTop="@dimen/medium_margin"
                 android:gravity="center"
                 android:scrollbars="vertical"
-                android:text="@string/detail_app_label_information"/>
+                android:text="@string/detail_app_label_desc"/>
 
             <TextView
                 android:id="@+id/fragment_detail_desc"
