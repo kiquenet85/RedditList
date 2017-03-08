@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Catalog App</string>
+    <string name="app_name">Reedit Subject</string>
     <string name="action_network">Network</string>
     <string name="fragment_category_item_label">Category</string>
     <string name="fragment_top_app_item_label">Category</string>
@@ -8,7 +8,7 @@
     <string name="category_fragment_endpoint_error">We are having trouble reaching server. is your connection working?</string>
     <string name="top_apps_fragment_endpoint_error">We are having trouble reaching server. is your connection working?</string>
     <string name="size_regex_top_app">[0-9]{2,}[x,X]{1}[0-9]{2,}</string>
-    <string name="toolbar_header_title">iOS Top Apps</string>
+    <string name="toolbar_header_title">Reedit Subject</string>
     <string name="detail_app_label_information">App information:</string>
     <string name="detail_app_label_price">Price:</string>
     <string name="detail_app_label_name">Name:</string>
