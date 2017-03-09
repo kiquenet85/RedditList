@@ -182,11 +182,11 @@
                 android:id="@+id/fragment_detail_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fab_margin"
                 android:layout_below="@+id/fragment_detail_label_desc"
                 android:gravity="center"
                 android:scrollbars="vertical"
                 android:text="Desc"/>
-
         </RelativeLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

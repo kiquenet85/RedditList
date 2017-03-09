@@ -3,8 +3,6 @@ package com.app.ndiazgranados.reddit.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,8 +113,7 @@ public class DetailSubjectFragment extends BaseFragment implements DetailSubject
         if (imageURL != null && !imageURL.isEmpty()) {
             Picasso.with(getContext()).load(imageURL).into(appImage);
         }
-        Spanned text = Html.fromHtml(selectedSubject.getData().getDescription());
-        description.setText(text);
+        description.setText(StringUtil.getUnknownIfEmpty(selectedSubject.getData().getSubmitText()));
         name.setText(StringUtil.getUnknownIfEmpty(selectedSubject.getData().getTitle()));
         numSubscribers.setText(StringUtil.getUnknownIfEmpty(Integer.toString(selectedSubject.getData().getSubscribers())));
         lang.setText(StringUtil.getUnknownIfEmpty(selectedSubject.getData().getLang()));
